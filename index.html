@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Points Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table.summary {
+            width: 50%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .delete-button {
+            color: red;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Daily Points Tracker</h1>
+
+    <!-- Summary Table -->
+    
+
+    <h2>Summary Table (Daily Totals)</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Game</th>
+                <th>Star</th>
+                <th>Boss Add</th>
+                <th>Total</th>
+                <th>Free</th>
+                <th>Now</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="game-m">
+                <td>M</td>
+                <td><input type="number" id="m-star" value="0"></td>
+                <td><input type="number" id="m-boss-add" value="0"></td>
+                <td id="m-total">0</td>
+                <td id="m-free">0</td>
+                <td id="m-now">0</td>
+            </tr>
+            <tr id="game-a">
+                <td>A</td>
+                <td><input type="number" id="a-star" value="0"></td>
+                <td><input type="number" id="a-boss-add" value="0"></td>
+                <td id="a-total">0</td>
+                <td id="a-free">0</td>
+                <td id="a-now">0</td>
+            </tr>
+            <tr id="game-g">
+                <td>G</td>
+                <td><input type="number" id="g-star" value="0"></td>
+                <td><input type="number" id="g-boss-add" value="0"></td>
+                <td id="g-total">0</td>
+                <td id="g-free">0</td>
+                <td id="g-now">0</td>
+            </tr>
+            <tr id="game-x">
+                <td>X</td>
+                <td><input type="number" id="x-star" value="0"></td>
+                <td><input type="number" id="x-boss-add" value="0"></td>
+                <td id="x-total">0</td>
+                <td id="x-free">0</td>
+                <td id="x-now">0</td>
+            </tr>
+            <tr id="game-y">
+                <td>Y</td>
+                <td><input type="number" id="y-star" value="0"></td>
+                <td><input type="number" id="y-boss-add" value="0"></td>
+                <td id="y-total">0</td>
+                <td id="y-free">0</td>
+                <td id="y-now">0</td>
+            </tr>
+            <tr id="game-z">
+                <td>Z</td>
+                <td><input type="number" id="z-star" value="0"></td>
+                <td><input type="number" id="z-boss-add" value="0"></td>
+                <td id="z-total">0</td>
+                <td id="z-free">0</td>
+                <td id="z-now">0</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Input Form -->
+    <h2>Input Form</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Group</th>
+                <th>ID Number</th>
+                <th>M/A/G/X/Y/Z</th>
+                <th>In/Out</th>
+                <th>Free</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input type="number" id="number"></td>
+                <td id="group-display">自动找到相对的号码的顾客</td>
+                <td><input type="text" id="id-number"></td>
+                <td>
+                    <select id="game-type">
+                        <option value="M">M</option>
+                        <option value="A">A</option>
+                        <option value="G">G</option>
+                        <option value="X">X</option>
+                        <option value="Y">Y</option>
+                        <option value="Z">Z</option>
+                    </select>
+                </td>
+                <td><input type="number" id="in-out"></td>
+                <td><input type="number" id="free"></td>
+                <td><button type="button" id="form-submit">提交</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Table Two -->
+    <h2>Data Table (Table Two)</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Group</th>
+                <th>ID Number</th>
+                <th>Game</th>
+                <th>In/Out</th>
+                <th>Free</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="table-two-body">
+            <!-- Data will be inserted here dynamically -->
+        </tbody>
+    </table>
+    <button onclick="getTableData()">Get Table Data</button>
+
+    <h2>Group each game Data Table </h2>
+    <table id="new-table" border="1">
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Group</th>
+                <th>M</th>
+                <th>M free</th>
+                <th>A</th>
+                <th>A free</th>
+                <th>G</th>
+                <th>G free</th>
+                <th>X</th>
+                <th>X free</th>
+                <th>Y</th>
+                <th>Y Free</th>
+                <th>Z</th>
+                <th>Z Free</th>
+                
+                
+            </tr>
+        </thead>
+        <tbody id="new-table-body">
+            <!-- 动态添加行 -->
+        </tbody>
+    </table>
+
+    
+
+    <h2>Download Excel File</h2>
+    <button type="button" id="download-excel">Download Excel</button>
+
+    <h2>Upload Excel File</h2>
+    <input type="file" id="upload-excel" accept=".xlsx, .xls" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 对照表：号码与顾客对应
+            const customerList = {
+                1: "Abul",
+                2: "Aldi Ns",
+                3: "Ali",
+                4: "Ambu kk",
+                5: "Bagas",
+                6: "Bara Ns",
+                7: "Barun",
+                8: "Bijoy",
+                9: "Bini Kereta",
+                10: "Bista",
+                11: "Botak kereta cuci",
+                12: "Uncil",
+                13: "Cuci kereta",
+                14: "Dini",
+                15: "Dodi",
+                16: "Eka",
+                17: "Faisal",
+                18: "Fazuan",
+                19: "Feroz(nber)",
+                20: "Firoz",
+                21: "Fuadi",
+                22: "Gunawan NS",
+                23: "Gusti",
+                24: "Han mlk",
+                25: "Harun",
+                26: "Hasan",
+                27: "Hossain",
+                28: "India",
+                29: "Jek 1",
+                30: "Jek kakseri",
+                31: "Jek kumar",
+                32: "Jek suren",
+                33: "Jek Kwn",
+                34: "Johir",
+                35: "Joo",
+                36: "Khan",
+                37: "Khokan",
+                38: "Kulai yong",
+                39: "Ladddi sonu",
+                40: "Laddi",
+                41: "Larkin $",
+                42: "Mama zhaw",
+                43: "Miminia",
+                44: "Najir",
+                45: "Nisa",
+                46: "Mas $",
+                47: "Nopi",
+                48: "Nur",
+                49: "Pancor",
+                50: "Paskitan",
+                51: "Pendy Ns",
+                52: "Putra dio",
+                53: "Putra",
+                54: "Radam",
+                55: "Ram",
+                56: "Rumah owner",
+                57: "Sahid",
+                58: "Sam",
+                59: "San",
+                60: "Sapik K",
+                61: "Shakil",
+                62: "Silla",
+                63: "Snooker mlk",
+                64: "Sohel1",
+                65: "Sohid",
+                66: "Stevany Ns",
+                67: "Sumba",
+                68: "Tilak",
+                69: "Wisnu",
+                70: "Yakim",
+                71: "Yasim",
+                72: "Yon 07",
+                73: "Youges",
+                74: "Yuan Mlk",
+                75: "Yuni",
+                76: "Buddhi",
+                77: "某顾客",
+                78: "某顾客",
+                79: "某顾客",
+                80: "某顾客",
+                81: "某顾客",
+                82: "某顾客",
+                83: "某顾客",
+                84: "某顾客",
+                85: "某顾客",
+                86: "某顾客",
+                87: "某顾客",
+                88: "某顾客",
+                89: "某顾客",
+                90: "某顾客",
+                91: "某顾客",
+                92: "某顾客",
+                93: "某顾客",
+                94: "某顾客",
+                95: "某顾客",
+                96: "某顾客",
+                97: "某顾客",
+                98: "某顾客",
+                99: "某顾客"
+            };
+
+            // 自动填充顾客名称
+            document.getElementById('number').addEventListener('input', (e) => {
+                const number = parseInt(e.target.value);
+                const groupDisplay = document.getElementById('group-display');
+                if (customerList[number]) {
+                    groupDisplay.textContent = customerList[number];
+                } else {
+                    groupDisplay.textContent = '无效号码';
+                }
+            });
+
+            const updateSummaryTable = () => {
+                const games = ['m', 'a', 'g', 'x', 'y', 'z'];
+                games.forEach(game => {
+                    const total = [...document.querySelectorAll(`#table-two-body tr`)]
+                        .filter(row => row.cells[3].textContent === game.toUpperCase())
+                        .reduce((sum, row) => sum + parseInt(row.cells[4].textContent || 0), 0);
+                    const free = [...document.querySelectorAll(`#table-two-body tr`)]
+                        .filter(row => row.cells[3].textContent === game.toUpperCase())
+                        .reduce((sum, row) => sum + parseInt(row.cells[5].textContent || 0), 0);
+
+                    document.getElementById(`${game}-total`).textContent = total;
+                    document.getElementById(`${game}-free`).textContent = free;
+
+                    const star = parseInt(document.getElementById(`${game}-star`).value) || 0;
+                    const bossAdd = parseInt(document.getElementById(`${game}-boss-add`).value) || 0;
+                    const now = star + bossAdd - total - free;
+                    document.getElementById(`${game}-now`).textContent = now;
+                });
+            };
+
+            // 提交表单数据
+            document.getElementById('form-submit').addEventListener('click', () => {
+                const number = document.getElementById('number').value;
+                const group = document.getElementById('group-display').textContent;
+                const idNumber = document.getElementById('id-number').value;
+                const gameType = document.getElementById('game-type').value.toLowerCase();
+                const inOut = parseInt(document.getElementById('in-out').value) || 0;
+                const free = parseInt(document.getElementById('free').value) || 0;
+
+                if (number && idNumber && gameType && group !== '无效号码') {
+                    const tableBody = document.getElementById('table-two-body');
+
+                    // 新增行
+                    const newRow = document.createElement('tr');
+                    newRow.innerHTML = ` 
+                        <td>${number}</td>
+                        <td>${group}</td>
+                        <td>${idNumber}</td>
+                        <td>${gameType.toUpperCase()}</td>
+                        <td>${inOut}</td>
+                        <td>${free}</td>
+                        <td><span class="delete-button">删除</span></td>`;
+                    tableBody.appendChild(newRow);
+
+                    // 更新 Summary Table
+                    updateSummaryTable();
+
+                    // 清空输入表单的内容
+                    document.getElementById('number').value = '';
+                    document.getElementById('id-number').value = '';
+                    document.getElementById('game-type').value = 'M'; // 默认选择 M
+                    document.getElementById('in-out').value = '';
+                    document.getElementById('free').value = '';
+                    document.getElementById('group-display').textContent = '自动找到相对的号码的顾客';
+                }
+            });
+
+            // 删除按钮
+            document.getElementById('table-two-body').addEventListener('click', (e) => {
+                if (e.target.classList.contains('delete-button')) {
+                    e.target.closest('tr').remove();
+                    updateSummaryTable();
+                }
+            });
+
+            // 上传 Excel 文件
+            document.getElementById('upload-excel').addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const data = e.target.result;
+                        const workbook = XLSX.read(data, { type: 'array' }); // 使用 'array' 读取方式
+                        const sheetName = workbook.SheetNames[0];
+                        const sheet = workbook.Sheets[sheetName];
+                        const json = XLSX.utils.sheet_to_json(sheet);
+
+                        json.forEach(row => {
+                            const tableBody = document.getElementById('table-two-body');
+                            const newRow = document.createElement('tr');
+                            newRow.innerHTML = ` 
+                                <td>${row.Number}</td>
+                                <td>${row.Group}</td>
+                                <td>${row['ID Number']}</td>
+                                <td>${row.Game}</td>
+                                <td>${row['In/Out']}</td>
+                                <td>${row.Free}</td>
+                                <td><span class="delete-button">删除</span></td>`;
+                            tableBody.appendChild(newRow);
+                        });
+
+                        updateSummaryTable();
+                    };
+                    reader.readAsArrayBuffer(file); // 使用 ArrayBuffer 读取文件
+                }
+            });
+
+            // 下载 Excel 文件
+            document.getElementById('download-excel').addEventListener('click', () => {
+                const table = document.getElementById('table-two-body');
+                const rows = [...table.querySelectorAll('tr')];
+                const data = rows.map(row => {
+                    const cols = row.querySelectorAll('td');
+                    return {
+                        'Number': cols[0].textContent,
+                        'Group': cols[1].textContent,
+                        'ID Number': cols[2].textContent,
+                        'Game': cols[3].textContent,
+                        'In/Out': cols[4].textContent,
+                        'Free': cols[5].textContent
+                    };
+                });
+
+                const ws = XLSX.utils.json_to_sheet(data);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+                XLSX.writeFile(wb, 'data.xlsx');
+            });
+        });
+
+
+        // Function to get data from the first table and fill the second table
+    function getTableData() {
+        const tableTwoBody = document.getElementById('table-two-body');
+        const newTableBody = document.getElementById('new-table-body');
+        
+        // Clear the new table before inserting new data
+        newTableBody.innerHTML = '';
+        
+        // Initialize an object to store data by Number and Group
+        let gameStats = {};
+        
+        // Iterate through each row in the first table and extract data
+        const rows = tableTwoBody.getElementsByTagName('tr');
+        
+        // Loop through rows to get Number, Group, Game, In/Out, and Free data
+        for (let row of rows) {
+            const cells = row.getElementsByTagName('td');
+            if (cells.length > 0) {
+                const number = cells[0].textContent; // Number column
+                const group = cells[1].textContent;  // Group column
+                const game = cells[3].textContent;   // Game column
+                const inOut = parseInt(cells[4].textContent);  // In/Out column
+                const free = parseInt(cells[5].textContent);  // Free column
+
+                // Initialize the stats for this number if it doesn't exist
+                if (!gameStats[number]) {
+                    gameStats[number] = {
+                        group: group,
+                        games: {
+                            M: { score: 0, free: 0 },
+                            A: { score: 0, free: 0 },
+                            G: { score: 0, free: 0 },
+                            X: { score: 0, free: 0 },
+                            Y: { score: 0, free: 0 },
+                            Z: { score: 0, free: 0 }
+                        }
+                    };
+                }
+                
+                // Add the score to the relevant game and free value
+                if (gameStats[number].games[game]) {
+                    gameStats[number].games[game].score += inOut;  // Add the In/Out value to the score
+                    gameStats[number].games[game].free += free;    // Add the Free value
+                }
+            }
+        }
+        
+        // Add rows to the new table based on the stats
+        for (let number in gameStats) {
+            const stats = gameStats[number];
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${number}</td>
+                <td>${stats.group}</td>
+                <td>${stats.games.M.score}</td>
+                <td>${stats.games.M.free}</td>
+                <td>${stats.games.A.score}</td>
+                <td>${stats.games.A.free}</td>
+                <td>${stats.games.G.score}</td>
+                <td>${stats.games.G.free}</td>
+                <td>${stats.games.X.score}</td>
+                <td>${stats.games.X.free}</td>
+                <td>${stats.games.Y.score}</td>
+                <td>${stats.games.Y.free}</td>
+                <td>${stats.games.Z.score}</td>
+                <td>${stats.games.Z.free}</td>
+            `;
+            newTableBody.appendChild(row);
+        }
+    }
+    </script>
+            
+</body>
+</html>
